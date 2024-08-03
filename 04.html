@@ -1,46 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>랜덤 고양이 사진</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="imageContainer"></div>
 
     <script>
-        let API_URL = `https://api.thecatapi.com/v1/images/search`;
+      let API_URL = `https://api.thecatapi.com/v1/images/search`;
 
-        let options = {
-            method: "GET",
-            headers: {
-                accept: "application/json",
-                "x-api-key":
-                    "live_8GfbTk0GMtgRdbxUB7XcuYzuMmfShEHGHNSnDo26DDgJDVUHDWqzJ25rJKpsSqud",
-            },
-        };
+      let options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          "x-api-key":
+            "live_8GfbTk0GMtgRdbxUB7XcuYzuMmfShEHGHNSnDo26DDgJDVUHDWqzJ25rJKpsSqud",
+        },
+      };
 
-        fetch(API_URL, options)
-            .then((response) => response.json())
-            .catch(error => console.error("error", error))
+      fetch(API_URL, options)
+        .then(async (response) => {
+          const result = await response.json();
+          console.log(result);
+          const catUrl = result[0].url;
+          console.log(catUrl);
 
+          const catImageContainer = document.getElementById("imageContainer");
+          const catImageTag = document.createElement("img");
+          catImageTag.src = catUrl;
+          catImageContainer.appendChild(catImageTag);
+        })
+        .catch((error) => {
+          console.log("error!!!!", error);
+        });
 
+      //   async () => {
+      //     let API_URL = `https://api.thecatapi.com/v1/images/search`;
 
-        function drawImage() {
-            const imgBox = document.getElementById('imageContainer');
+      //     let options = {
+      //       method: "GET",
+      //       headers: {
+      //         accept: "application/json",
+      //         "x-api-key":
+      //           "live_8GfbTk0GMtgRdbxUB7XcuYzuMmfShEHGHNSnDo26DDgJDVUHDWqzJ25rJKpsSqud",
+      //       },
+      //     };
 
-            const newImg = document.createElement('img');
-
-            newImg.innerHTML =
-                `
-                <img src="${API_URL.url}"  alt="" />
-                `
-            imgBox.appendChild(newImg);
-        }
-        // API_URL 과 options를 사용해 fetch 로 API 요청을 한 후, 해당 데이터를 통해 img 태그를 생성하여 주세요.
+      //     const response = await fetch(API_URL, options).then((res) =>
+      //       res.json()
+      //     );
+      //     return response;
+      //   };
     </script>
-</body>
-
+  </body>
 </html>
